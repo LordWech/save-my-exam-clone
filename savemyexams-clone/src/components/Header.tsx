@@ -59,12 +59,37 @@ const LightningIcon = () => (
   </svg>
 );
 
+const MenuIcon = ({ className = 'h-6 w-6' }: { className?: string }) => (
+  <svg
+    aria-hidden
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" />
+  </svg>
+);
+
+const CloseIcon = ({ className = 'h-6 w-6' }: { className?: string }) => (
+  <svg
+    aria-hidden
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" />
+  </svg>
+);
+
 const HeaderComponent = () => {
   const [teachingOpen, setTeachingOpen] = useState(false);
   const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false);
   const [resourcesDrawerOpen, setResourcesDrawerOpen] = useState(false);
   const resourcesButtonRef = useRef<HTMLButtonElement | null>(null);
   const resourcesMenuRef = useRef<HTMLDivElement | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
@@ -72,19 +97,20 @@ const HeaderComponent = () => {
         setTeachingOpen(false);
         setResourcesDropdownOpen(false);
         setResourcesDrawerOpen(false);
+        setMobileMenuOpen(false);
       }
     };
 
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, []);
+  }, [setMobileMenuOpen]);
 
   useEffect(() => {
     if (typeof document === 'undefined') {
       return;
     }
 
-    const shouldLock = teachingOpen || resourcesDrawerOpen;
+    const shouldLock = teachingOpen || resourcesDrawerOpen || mobileMenuOpen;
 
     if (!shouldLock) {
       document.body.style.overflow = '';
@@ -98,7 +124,7 @@ const HeaderComponent = () => {
     return () => {
       body.style.overflow = previous;
     };
-  }, [teachingOpen, resourcesDrawerOpen]);
+  }, [teachingOpen, resourcesDrawerOpen, mobileMenuOpen]);
 
   useEffect(() => {
     if (!resourcesDropdownOpen) {
@@ -126,6 +152,7 @@ const HeaderComponent = () => {
   }, [resourcesDropdownOpen]);
 
   const toggleTeachingDrawer = () => {
+    setMobileMenuOpen(false);
     setTeachingOpen((current) => {
       const next = !current;
       if (next) {
@@ -151,16 +178,24 @@ const HeaderComponent = () => {
     setTeachingOpen(false);
     setResourcesDropdownOpen(false);
     setResourcesDrawerOpen(true);
+    setMobileMenuOpen(false);
+  };
+
+  const openTeachingFlow = () => {
+    setMobileMenuOpen(false);
+    setResourcesDropdownOpen(false);
+    setResourcesDrawerOpen(false);
+    setTeachingOpen(true);
   };
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-slate-800/60 bg-[#060b16]/90 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center gap-6 px-6 py-5">
+      <header className="sticky top-0 z-40 border-b border-border bg-[color:rgba(16,20,26,0.92)] backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-4 sm:px-6 sm:py-5">
           <div className="flex items-center gap-2">
             <Link
               to="/"
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-indigo-500 text-white shadow-lg shadow-sky-500/40"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-info)] text-white shadow-lg shadow-[rgba(249,115,22,0.32)]"
               aria-label="SaveMyExams home"
             >
               <LightningIcon />
@@ -170,10 +205,10 @@ const HeaderComponent = () => {
             </Link>
           </div>
 
-          <nav className="hidden items-center gap-6 text-sm text-slate-300 md:flex">
+          <nav className="hidden items-center gap-6 text-sm text-muted md:flex">
             <button
               type="button"
-              className="flex items-center gap-1 text-slate-300 transition hover:text-white"
+              className="flex items-center gap-1 text-muted transition hover:text-white"
               onClick={toggleTeachingDrawer}
               aria-expanded={teachingOpen}
             >
@@ -184,7 +219,7 @@ const HeaderComponent = () => {
               <button
                 type="button"
                 ref={resourcesButtonRef}
-                className="flex items-center gap-1 text-slate-300 transition hover:text-white"
+                className="flex items-center gap-1 text-muted transition hover:text-white"
                 onClick={toggleResourcesDropdown}
                 aria-expanded={resourcesDropdownOpen}
               >
@@ -203,33 +238,74 @@ const HeaderComponent = () => {
           </nav>
 
           <div className="ml-auto flex items-center gap-3">
-          <div className="relative hidden w-80 items-center md:flex">
-            <span className="pointer-events-none absolute left-4 text-slate-400">
-              <SearchIcon />
-            </span>
-            <input
-              type="search"
-              placeholder="Search for a subject"
-              className="w-full rounded-full border border-slate-800/70 bg-[#0a1021] py-2.5 pl-12 pr-4 text-sm text-slate-100 shadow-inner shadow-black/30 placeholder:text-slate-500 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/30"
-            />
+            <div className="relative hidden w-64 items-center md:flex lg:w-72">
+              <span className="pointer-events-none absolute left-4 text-muted">
+                <SearchIcon />
+              </span>
+              <input
+                type="search"
+                placeholder="Search for a subject"
+                className="w-full rounded-full border border-border bg-surface-soft py-2.5 pl-12 pr-4 text-sm text-[var(--color-text)] shadow-inner shadow-black/30 placeholder:text-muted focus:border-[var(--color-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-ring)]"
+              />
+            </div>
+
+            <button
+              type="button"
+              className="hidden rounded-full border border-border px-4 py-2 text-sm font-medium text-[var(--color-text)] transition hover:border-accent hover:text-white md:block"
+            >
+              Launch student view
+            </button>
+
+            <button
+              type="button"
+              className="flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm font-medium text-[var(--color-text)] transition hover:border-accent hover:text-white"
+            >
+              <span>My account</span>
+              <ChevronDown className="h-4 w-4" />
+            </button>
+
+            <button
+              type="button"
+              className="rounded-xl border border-border p-2 text-[var(--color-text)] transition hover:border-accent hover:text-white md:hidden"
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? <CloseIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
+            </button>
           </div>
-
-          <button
-            type="button"
-            className="hidden rounded-full border border-slate-700/70 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-sky-500 hover:text-white md:block"
-          >
-            Launch student view
-          </button>
-
-          <button
-            type="button"
-            className="flex items-center gap-1.5 rounded-full border border-slate-700/70 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-sky-500 hover:text-white"
-          >
-            <span>My account</span>
-            <ChevronDown className="h-4 w-4" />
-          </button>
         </div>
-        </div>
+        {mobileMenuOpen ? (
+          <div className="md:hidden">
+            <div className="border-t border-border bg-[var(--color-bg)] px-4 pb-6 pt-4 sm:px-6">
+              <div className="space-y-3 text-sm text-muted">
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-between rounded-2xl border border-border bg-surface px-4 py-3 font-semibold text-[var(--color-text)] transition hover:border-accent hover:text-white"
+                  onClick={openTeachingFlow}
+                >
+                  <span>Start teaching</span>
+                  <ChevronDown className="h-4 w-4 rotate-180" />
+                </button>
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-between rounded-2xl border border-border bg-surface px-4 py-3 font-semibold text-[var(--color-text)] transition hover:border-accent hover:text-white"
+                  onClick={openResourcesExplorer}
+                >
+                  <span>Browse resources</span>
+                  <LightningIcon className="h-4 w-4" />
+                </button>
+                <Link
+                  to="/"
+                  className="block rounded-2xl border border-border bg-surface px-4 py-3 text-[var(--color-text)] transition hover:border-accent hover:text-white"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Launch student view
+                </Link>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </header>
       <StartTeachingDrawer open={teachingOpen} onClose={() => setTeachingOpen(false)} />
       <ResourcesDrawer open={resourcesDrawerOpen} onClose={() => setResourcesDrawerOpen(false)} />

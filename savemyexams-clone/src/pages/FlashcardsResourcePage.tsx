@@ -124,7 +124,7 @@ export const FlashcardsResourcePage = ({ context }: FlashcardsResourcePageProps)
                     <span className="text-xs text-slate-500">{card.count} decks</span>
                   </div>
                   <div className="h-1.5 rounded-full bg-slate-800">
-                    <div className="h-full rounded-full bg-gradient-to-r from-sky-500 to-indigo-500" style={{ width: `${Math.min(100, card.count * 10)}%` }} />
+                    <div className="h-full rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-success)]" style={{ width: `${Math.min(100, card.count * 10)}%` }} />
                   </div>
                 </div>
               );

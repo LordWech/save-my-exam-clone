@@ -269,7 +269,7 @@ export const FlashcardsCollectionPage = () => {
                 </button>
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-slate-800">
-                <div className="h-full rounded-full bg-gradient-to-r from-sky-500 to-indigo-500" style={{ width: `${progressPercentage}%` }} />
+                <div className="h-full rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-success)]" style={{ width: `${progressPercentage}%` }} />
               </div>
             </header>
 

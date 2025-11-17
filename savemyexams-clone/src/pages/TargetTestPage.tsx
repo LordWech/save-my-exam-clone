@@ -429,7 +429,7 @@ export const TargetTestPage = ({ context }: TargetTestPageProps) => {
   const renderProgressBar = (progressFraction: number) => (
     <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-slate-800/80">
       <div
-        className="h-full rounded-full bg-gradient-to-r from-sky-500 via-violet-500 to-emerald-400 transition-all duration-500"
+  className="h-full rounded-full bg-gradient-to-r from-[var(--color-accent)] via-[var(--color-info)] to-[var(--color-success)] transition-all duration-500"
         style={{ width: `${Math.max(0, Math.min(progressFraction, 1)) * 100}%` }}
       />
     </div>

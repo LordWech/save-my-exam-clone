@@ -41,29 +41,29 @@ const KebabIcon = () => (
 );
 
 export const ProgressCard = ({ courseLabel, moduleLabel, topic }: ProgressCardProps) => (
-  <div className="rounded-3xl border border-slate-800/80 bg-gradient-to-r from-[#111b2f] via-[#10172b] to-[#0c142a] p-6 shadow-2xl shadow-black/40 ring-1 ring-white/5 sm:p-8">
+  <div className="rounded-3xl border border-border bg-gradient-to-r from-[var(--color-surface-alt)] via-[var(--color-surface-muted)] to-[var(--color-surface)] p-6 shadow-2xl shadow-black/40 ring-1 ring-white/5 sm:p-8">
     <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
       <div className="flex items-start gap-4">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-500/20 text-sm font-semibold text-sky-100 ring-1 ring-sky-400/30">
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent-tint text-sm font-semibold text-accent ring-1 ring-[color:rgba(249,115,22,0.35)]">
           PX
         </div>
         <div className="space-y-1.5">
-          <p className="text-xs uppercase tracking-[0.3em] text-slate-400">{courseLabel}</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-muted">{courseLabel}</p>
           <h2 className="text-xl font-semibold text-white">{moduleLabel}</h2>
-          <p className="text-sm text-slate-300">{topic}</p>
+          <p className="text-sm text-muted">{topic}</p>
         </div>
       </div>
-      <div className="flex flex-col gap-3 self-end text-sm md:flex-row md:items-center md:gap-4 md:self-center">
+      <div className="flex flex-col gap-3 self-stretch text-sm md:flex-row md:items-center md:gap-4 md:self-center">
         <button
           type="button"
-          className="inline-flex items-center gap-2 rounded-full border border-sky-500/40 bg-sky-500/10 px-5 py-2 font-medium text-sky-100 transition hover:border-sky-400 hover:text-white"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-accent bg-accent-tint px-5 py-2 font-medium text-accent transition hover:bg-accent hover:text-white md:w-auto md:justify-start"
         >
           <span>Revision Notes</span>
           <ArrowIcon className="h-4 w-4" />
         </button>
         <button
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-700/70 text-slate-400 transition hover:border-sky-500 hover:text-white"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted transition hover:border-accent hover:text-white"
           aria-label="More options"
         >
           <KebabIcon />

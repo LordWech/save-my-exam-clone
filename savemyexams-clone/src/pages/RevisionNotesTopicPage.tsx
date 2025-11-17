@@ -76,12 +76,12 @@ const getTopicProgress = (sectionIndex: number, topicIndex: number, topicCount: 
 
 const pickProgressColour = (percent: number) => {
   if (percent >= 75) {
-    return '#34d399';
+    return 'var(--color-success)';
   }
   if (percent >= 55) {
-    return '#38bdf8';
+    return 'var(--color-accent)';
   }
-  return '#facc15';
+  return 'var(--color-warning)';
 };
 
 const ProgressRing = ({ percent, size = 40 }: { percent: number; size?: number }) => {
